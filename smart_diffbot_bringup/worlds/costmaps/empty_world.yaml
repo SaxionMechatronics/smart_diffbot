@@ -1,0 +1,7 @@
+image: empty_world.png
+mode: trinary
+resolution: 0.2
+origin: [-20, -30, 0]
+negate: 0
+occupied_thresh: 0.2
+free_thresh: 0.1

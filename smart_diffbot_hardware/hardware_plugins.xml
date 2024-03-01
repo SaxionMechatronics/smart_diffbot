@@ -1,0 +1,12 @@
+<library path="smart_diffbot_hardware">
+
+  <!-- Define hardware interfaces here -->
+  
+  <!-- Dummy interface (smart_diffbot model has no actual hardware) -->
+  <class name="smart_diffbot_hardware/DCMotorVelocityInterface" type="smart_diffbot_hardware_interface::DCMotorVelocityInterface" base_class_type="hardware_interface::ActuatorInterface">
+    <description>
+      Actuator interface to control the joint velocity of a DC motor and read the joint position and velocity with a wheel encoder
+    </description>
+  </class> 
+  
+</library>

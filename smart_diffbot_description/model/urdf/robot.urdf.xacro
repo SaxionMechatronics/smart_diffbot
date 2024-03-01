@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<robot name="smart_diffbot" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Arguments -->
+  <xacro:arg name="sim" default="true" />
+  <xacro:arg name="camera" default="true" />
+  <xacro:arg name="color" default="SaxionGreen" />
+  <xacro:arg name="robot_name" default="smart_diffbot" />
+  <xacro:arg name="namespace" default="" />
+  <xacro:arg name="frame_prefix" default="" />
+
+  <!-- Utils -->
+  <xacro:include filename="$(find smart_diffbot_description)/model/urdf/utils.urdf.xacro" />
+
+  <!-- Robot model -->
+  <xacro:include filename="$(find smart_diffbot_description)/model/urdf/model.urdf.xacro" />
+
+  <!-- Real hardware interface -->
+  <xacro:unless value="$(arg sim)">
+    <xacro:include filename="$(find smart_diffbot_description)/model/urdf/real_hardware_interface.urdf.xacro" />
+  </xacro:unless>
+
+  <!-- Simulation hardware interface -->
+  <xacro:if value="$(arg sim)">
+    <xacro:include filename="$(find smart_diffbot_description)/model/urdf/sim_hardware_interface.urdf.xacro" />
+  </xacro:if>
+
+</robot>

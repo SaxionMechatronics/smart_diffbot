@@ -1,0 +1,12 @@
+[submodule "gz_ros2_control"]
+	path = gz_ros2_control
+	url = https://github.com/ros-controls/gz_ros2_control.git
+	branch = humble
+[submodule "ros2_aruco"]
+	path = ros2_aruco
+	url = https://github.com/JMU-ROBOTICS-VIVA/ros2_aruco.git
+	branch = main
+[submodule "rviz_satellite"]
+	path = rviz_satellite
+	url = https://github.com/blacksoul000/rviz_satellite.git
+	branch = dashing

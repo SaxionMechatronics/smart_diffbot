@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Simulation hardware interface -->
+  <ros2_control name="IgnitionSystem" type="system">
+    <hardware>
+      <plugin>ign_ros2_control/IgnitionSystem</plugin>
+    </hardware>
+    <joint name="left_wheel_joint">
+      <command_interface name="velocity">
+        <param name="min">-10</param>
+        <param name="max">10</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="right_wheel_joint">
+      <command_interface name="velocity">
+        <param name="min">-10</param>
+        <param name="max">10</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+  </ros2_control>
+
+
+   <!-- Gazebo plugins -->
+   <gazebo>
+
+    <!-- ros2_control -->
+    <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+      <parameters>$(find smart_diffbot_control)/config/controller_params.yaml</parameters>
+      <ros>
+        <namespace>$(arg namespace)</namespace>
+      </ros>
+    </plugin>
+
+    <!-- Camera (optional) -->
+    <xacro:if value="$(arg camera)">
+      <plugin filename="ignition-gazebo-sensors-system"  name="ignition::gazebo::systems::Sensors">
+        <render_engine>ogre2</render_engine>
+      </plugin>
+    </xacro:if>
+
+    <!-- navsat -->
+    <plugin filename="ignition-gazebo-navsat-system" name="ignition::gazebo::systems::NavSat"/>
+
+    <!-- IMU -->
+    <plugin filename="libignition-gazebo-imu-system.so" name="ignition::gazebo::systems::Imu"/>
+
+  </gazebo>
+
+  
+  <!-- Sensor simulation -->
+  <xacro:if value="$(arg camera)">
+    <gazebo reference="camera_link">
+      <sensor name="camera" type="camera">       
+        <always_on>1</always_on>
+        <update_rate>15</update_rate>
+        <visualize>true</visualize>
+        <topic>$(arg namespace)/camera/image_raw</topic>
+        <ignition_frame_id>$(arg frame_prefix)camera_link</ignition_frame_id>
+      </sensor>
+    </gazebo>
+  </xacro:if>
+
+  <gazebo reference="navsat_link">
+    <sensor name="navsat" type="navsat">
+      <always_on>1</always_on>
+      <update_rate>1</update_rate>
+      <topic>$(arg namespace)/navsat/fix</topic>
+      <ignition_frame_id>$(arg frame_prefix)navsat_link</ignition_frame_id>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="imu_link">
+    <sensor name="imu" type="imu">
+      <always_on>1</always_on>
+      <update_rate>1</update_rate> <!-- To simulate orientation coming from dual GNSS -->
+      <visualize>false</visualize>
+      <topic>$(arg namespace)/imu/data</topic>
+      <ignition_frame_id>$(arg frame_prefix)imu_link</ignition_frame_id>
+    </sensor>
+  </gazebo>
+
+  <!-- No friction on fixed caster wheel -->
+  <gazebo reference="caster">
+    <mu1>0.0</mu1>   
+    <mu2>0.0</mu2>
+  </gazebo>
+
+</robot>

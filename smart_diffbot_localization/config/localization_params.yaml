@@ -1,0 +1,66 @@
+/**/marker_detection_node:
+  ros__parameters:
+    marker_size: 0.3
+    
+
+/**/navsat_transform_node:
+  ros__parameters:
+
+    frequency: 5.0
+
+    yaw_offset: 0.0 # East = 0.0
+    magnetic_declination_radians: 0.0
+    wait_for_datum: true 
+    datum: [52.2184, 6.8753, 0.0]
+
+    publish_filtered_gps: true
+    zero_altitude: true 
+
+
+/**/global_ekf_node:
+  ros__parameters:
+
+    frequency: 30.0 
+
+    two_d_mode: true
+
+    base_link_frame: base_link
+    odom_frame: odom
+    map_frame: map
+    world_frame: map # This wil create the odom => map transform
+
+    # Wheel encoder config if trusted 
+    odom0: diff_drive_controller/odom
+    odom0_config: [false, false, false,     
+                  false, false, false,
+                  true, true, false,
+                  false, false, true,
+                  false, false, false]
+    odom0_differential: false
+
+    # IMU config
+    imu0: imu/data
+    imu0_config: [false, false, false,
+                  false, false, true,
+                  false, false, false,
+                  false, false, false,
+                  false, false, false]
+    imu0_differential: false
+
+    # Navsat odom from navsat_transform_node
+    odom1: navsat_transform/navsat_odometry
+    odom1_config: [true, true, false,     
+                  false, false, false,
+                  false, false, false,
+                  false, false, false,
+                  false, false, false]
+    odom1_differential: false
+
+
+# Sensor state:
+#        [x_pos   , y_pos    , z_pos,
+#         roll    , pitch    , yaw,
+#         x_vel   , y_vel    , z_vel,
+#         roll_vel, pitch_vel, yaw_vel,
+#         x_accel , y_accel  , z_accel]
+

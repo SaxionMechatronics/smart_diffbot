@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+<!-- Real hardware interface -->
+
+  <!-- Motor left -->
+  <ros2_control name="motor_left" type="actuator">
+    <hardware>
+      <plugin>smart_diffbot_hardware/DCMotorVelocityInterface</plugin>
+    </hardware>
+
+    <joint name="left_wheel_joint">
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+  </ros2_control>
+
+  <!-- Motor right -->
+  <ros2_control name="motor_right" type="actuator">
+    <hardware>
+      <plugin>smart_diffbot_hardware/DCMotorVelocityInterface</plugin>
+    </hardware>
+
+    <joint name="right_wheel_joint">
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+  </ros2_control>
+
+</robot>

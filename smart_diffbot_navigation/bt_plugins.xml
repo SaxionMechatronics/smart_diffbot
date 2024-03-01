@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<root>
+  <TreeNodesModel>
+
+    <Action ID="ApproachDock">
+      <input_port name="distance">Distance to dock approach</input_port>
+      <input_port name="speed">Approaching speed</input_port>
+      <input_port name="marker_id">ID of marker on docking station</input_port>
+    </Action>
+
+    <Action ID="Dock">
+      <input_port name="distance">Distance to dock</input_port>
+      <input_port name="speed">Docking speed</input_port>
+      <input_port name="marker_id">ID of marker on docking station</input_port>
+    </Action>
+
+  </TreeNodesModel>
+</root>

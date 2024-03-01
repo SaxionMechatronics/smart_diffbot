@@ -1,0 +1,46 @@
+/**/controller_manager:
+  ros__parameters:
+
+    use_sim_time: true # This will be set to false on real robot in launch file
+
+    update_rate: 50
+
+    diff_drive_controller:
+      type: diff_drive_controller/DiffDriveController
+    
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+
+/**/diff_drive_controller:
+  ros__parameters:
+
+    use_sim_time: true # This will be set to false on real robot in launch file
+
+    publish_rate: 50.0 # You can set this higher than the controller manager update rate, but it will be throttled
+
+    use_stamped_vel: false # Depending on if cmd_vel is presented as Twist or TwistStamped:
+    enable_odom_tf: true
+    publish_limited_velocity: true 
+
+    # Robot model
+    base_frame_id: base_link
+    left_wheel_names: ['left_wheel_joint']
+    right_wheel_names: ['right_wheel_joint']
+    wheel_separation: 1.14
+    wheel_radius: 0.2
+
+    # Velocity and acceleration limits of robot
+    linear:
+      x:
+        has_velocity_limits: true
+        has_acceleration_limits: true
+        max_velocity: 3.0
+        max_acceleration: 3.0
+      
+    angular:
+      z:
+        has_velocity_limits: true
+        has_acceleration_limits: true
+        max_velocity: 2.0
+        max_acceleration: 5.0

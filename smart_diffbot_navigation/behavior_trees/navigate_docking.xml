@@ -1,0 +1,59 @@
+<root main_tree_to_execute="MainTree">
+  <BehaviorTree ID="MainTree">
+
+    <!-- Docking behavior tree -->
+
+    <Sequence> <!-- Navigate to goal -> approach dock -> dock -->
+
+      <!-- Navigate to goal -->
+      <RecoveryNode number_of_retries="6" name="NavigateRecovery">
+
+        <!-- Planning and following path -->
+        <PipelineSequence name="NavigateWithReplanning">
+          <RateController hz="1">
+            <ComputePathToPose goal="{goal}" path="{path}" planner_id="GridBased"/>
+          </RateController>
+          <FollowPath path="{path}" controller_id="FollowPath"/>
+        </PipelineSequence>
+
+        <!-- Recovery -->
+        <ReactiveFallback name="NavigateRecoveryFallback">
+          <GoalUpdated/>
+          <RoundRobin name="NavigateRecoveryActions">
+            <Spin spin_dist="1.57"/>
+            <BackUp backup_dist="0.50" backup_speed="0.2"/>
+          </RoundRobin>
+        </ReactiveFallback>
+
+      </RecoveryNode>
+
+
+      <!-- Approach dock -->
+      <RecoveryNode number_of_retries="10" name="ApproachDockRecovery">
+
+        <!-- Approach action-->
+        <ApproachDock distance="1.5" speed="0.2" marker_id="1"/>
+
+        <!-- Recovery -->
+        <Fallback name="ApproachDockRecoveryFallback">
+          <Spin spin_dist="0.7"/>
+        </Fallback>
+
+      </RecoveryNode>
+
+      <!-- Dock -->
+      <RecoveryNode number_of_retries="3" name="DockRecovery">
+
+        <!-- Dock action-->
+        <Dock distance="0.8" speed="0.1" marker_id="1"/>
+
+        <!-- Recovery -->
+        <Fallback name="DockRecoveryFallback">
+            <BackUp backup_dist="0.30" backup_speed="0.05"/>
+        </Fallback>
+
+      </RecoveryNode>
+
+    </Sequence>
+  </BehaviorTree>
+</root>

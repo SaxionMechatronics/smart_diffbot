@@ -1,0 +1,7 @@
+<library path="smart_diffbot_navigation_plugin">
+
+	<class name="smart_diffbot_navigation/StraightLinePlanner" type="smart_diffbot_navigation::StraightLinePlanner" base_class_type="nav2_core::GlobalPlanner">
+	  <description>This plugin plans the shortest global path between two waypoints.</description>
+	</class>
+	
+</library>
