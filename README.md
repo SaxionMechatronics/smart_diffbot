@@ -3,7 +3,7 @@ Generic diff drive robot simulated in Gazebo for testing outdoor GNSS based navi
 
 It supports namespacing and multiple robots in one simulation. Tested for ROS 2 Humble and Gazebo Fortress. 
 
-Developed by the Smart Mechatronics And RoboTics (SMART) Research Group of Saxion University of Applied Sciences. Supported by Regiorgaan SIA project RAAK-MKB Autonomous Agricultural Navigation ()
+Developed by the Smart Mechatronics And RoboTics (SMART) Research Group of Saxion University of Applied Sciences. Supported by Regiorgaan SIA project RAAK-MKB Autonomous Agricultural Navigation (RAAK.MKB16.016).
 
 ![screenshot](screenshot.png)
 
@@ -39,8 +39,8 @@ sudo apt install ros-humble-robot-localization
 sudo apt install ros-humble-navigation2
 ```
 
-### The smart_diffbot packages
-Clone the smart_diffbot repository to the `src` folder of your ROS 2 workspace. 
+### The SMART diffbot packages
+Clone the `smart_diffbot` repository to the `src` folder of your ROS 2 workspace. 
 
 Some dependencies are not available as binary installs for ROS 2 Humble. These are included as submodules to this package. These include:
 
@@ -48,7 +48,7 @@ Some dependencies are not available as binary installs for ROS 2 Humble. These a
 * [rviz_satellite](https://github.com/blacksoul000/rviz_satellite.git)
 * [ros2_arcuo](https://github.com/JMU-ROBOTICS-VIVA/ros2_aruco.git)
 
-They are available as submodules to this package and they can be downloaded using:
+They are available as submodules to this package and they can be added by running inside of the `smart_diffbot` folder:
 ```bash 
 git submodule init
 git submodule update
@@ -88,6 +88,8 @@ Another example launches an empty world with two robots, including namespacing:
 ```bash
 ros2 launch smart_diffbot_bringup multi_robot_sim_example.launch.py
 ```
+
+Although there is no actual hardware of the SMART diffbot, a dummy hardware interface has also been included in this package to demonstrate how a similar package could be set up for an actual robot with simple switching between simulation and hardware control. It would be a matter of setting a `sim` argument to `false` in the main robot launch file. 
 
 # Basic use 
 The robot can be used in any Gazebo world that includes spherical coordinates (such that GNSS data is available) and a bridged clock from Gazebo to ROS 2. The included worlds can be used as examples. 
