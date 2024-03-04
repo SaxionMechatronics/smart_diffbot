@@ -5,7 +5,7 @@
           <RateController hz="1.0">
             <ReactiveSequence>
               <RemovePassedGoals input_goals="{goals}" output_goals="{goals}" radius="0.5"/>
-              <ComputePathThroughPoses goals="{goals}" path="{path}" planner_id="StraightLine"/>
+              <ComputePathThroughPoses goals="{goals}" path="{path}" planner_id="GridBased"/>
             </ReactiveSequence>
           </RateController>
           <FollowPath path="{path}" controller_id="FollowPath"/>
