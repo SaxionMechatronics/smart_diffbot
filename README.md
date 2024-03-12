@@ -29,6 +29,12 @@ sudo apt install ros-humble-ros2-control
 sudo apt install ros-humble-ros2-controllers
 ```
 
+#### Aruco detection
+```bash 
+pip3 install transforms3d opencv-contrib-python==4.6.0.66
+sudo apt-get install ros-humble-tf-transformations
+```
+
 #### Localization 
 ```bash
 sudo apt install ros-humble-robot-localization
