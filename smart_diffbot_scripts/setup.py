@@ -13,10 +13,10 @@ setup(
     ],
     install_requires=['setuptools'],
     zip_safe=True,
-    maintainer='kees',
+    maintainer='Kees van Teeffelen',
     maintainer_email='k.j.vanteeffelen@saxion.nl',
-    description='TODO: Package description',
-    license='TODO: License declaration',
+    description='Scripts package of smart_diffbot',
+    license='Apache License 2.0',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [

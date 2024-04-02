@@ -70,6 +70,15 @@ def generate_launch_description():
                             ('/camera/image_raw', 'camera/image_raw'),
                             ]
             ),
+
+            # Line detection
+            Node(
+                package='smart_diffbot_scripts',
+                executable='line_detection',
+                output='screen',
+                name='line_detection_node',
+                parameters=[{'use_sim_time': LaunchConfiguration('sim')}]
+            ),
         ]
     )
 

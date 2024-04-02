@@ -15,12 +15,13 @@ setup(
     zip_safe=True,
     maintainer='Kees van Teeffelen',
     maintainer_email='k.j.vanteeffelen@saxion.nl',
-    description='TODO: Package description',
-    license='TODO: License declaration',
+    description='Clients package of smart_diffbot',
+    license='Apache License 2.0',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'docking_client = smart_diffbot_clients.docking_client:main'
+            'docking_client = smart_diffbot_clients.docking_client:main',
+            'line_follow_client = smart_diffbot_clients.line_follow_client:main'
         ],
     },
 )

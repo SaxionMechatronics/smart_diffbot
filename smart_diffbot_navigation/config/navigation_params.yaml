@@ -7,15 +7,11 @@
     goal_blackboard_id: goal
     goals_blackboard_id: goals
     path_blackboard_id: path
-    navigators: ['navigate_to_pose', 'navigate_through_poses', 'exact_path_navigator', 'docking_navigator'] 
+    navigators: ['navigate_to_pose', 'navigate_through_poses']
     navigate_to_pose:
-      plugin: "smart_diffbot_navigation/NavigateToPoseNavigator"
+      plugin: "nav2_bt_navigator/NavigateToPoseNavigator"
     navigate_through_poses:
-      plugin: "smart_diffbot_navigation/NavigateThroughPosesNavigator"
-    exact_path_navigator:
-      plugin: "smart_diffbot_navigation/ExactPathNavigator"
-    docking_navigator:
-      plugin: "smart_diffbot_navigation/DockingNavigator"
+      plugin: "nav2_bt_navigator/NavigateThroughPosesNavigator"
     plugin_lib_names:
     - nav2_compute_path_to_pose_action_bt_node
     - nav2_compute_path_through_poses_action_bt_node
@@ -65,6 +61,7 @@
     - nav2_drive_on_heading_cancel_bt_node
     - smart_diffbot_navigation_approach_dock_action_bt_node
     - smart_diffbot_navigation_dock_action_bt_node
+    - smart_diffbot_navigation_follow_line_action_bt_node
 
 /**/planner_server:
   ros__parameters:
@@ -92,8 +89,8 @@
       movement_time_allowance: 10.0
     goal_checker:
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.5
-      yaw_goal_tolerance: 3.15
+      xy_goal_tolerance: 0.25
+      yaw_goal_tolerance: 0.25
       stateful: True
     FollowPath:
       plugin: "nav2_mppi_controller::MPPIController"
@@ -125,7 +122,7 @@
         cost_weight: 5.0
         threshold_to_consider: 1.5
       GoalAngleCritic:
-        enabled: false
+        enabled: true
         cost_power: 1
         cost_weight: 3.0
         threshold_to_consider: 0.5
@@ -173,7 +170,7 @@
     costmap_topic: local_costmap/costmap_raw
     footprint_topic: local_costmap/published_footprint
     cycle_frequency: 10.0
-    behavior_plugins: ["spin", "backup", "dock", "approach_dock"]
+    behavior_plugins: ["spin", "backup", "dock", "approach_dock", "follow_line"]
     spin:
       plugin: "nav2_behaviors/Spin"
     backup:
@@ -184,7 +181,10 @@
     approach_dock:
       plugin: "smart_diffbot_navigation/ApproachDock"
       linear_gain: 0.5
-      angular_gain: 2.0
+      angular_gain: 2.0    
+    follow_line:
+      plugin: "smart_diffbot_navigation/FollowLine"
+      control_gain: 0.002
     global_frame: map
     robot_base_frame: base_link
     transform_tolerance: 0.1
@@ -205,7 +205,7 @@
       width: 15
       height: 15
       resolution: 0.05
-      footprint: '[ [0.75, 0.65], [0.75, -0.65], [-0.75, -0.65], [-0.75, 0.65] ]'
+      footprint: '[ [1.05, 0.55], [1.05, -0.55], [-0.35, -0.55], [-0.35, 0.55] ]'
       footprint_padding: 0.03      
       plugins: ["static_layer", "inflation_layer"]
       static_layer:
@@ -225,7 +225,7 @@
       publish_frequency: 1.0
       global_frame: map
       robot_base_frame: base_link
-      footprint: '[ [0.75, 0.65], [0.75, -0.65], [-0.75, -0.65], [-0.75, 0.65] ]'
+      footprint: '[ [1.05, 0.55], [1.05, -0.55], [-0.35, -0.55], [-0.35, 0.55] ]'
       footprint_padding: 0.03
       resolution: 0.05
       track_unknown_space: true

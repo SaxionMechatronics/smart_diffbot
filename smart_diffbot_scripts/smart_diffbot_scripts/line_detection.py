@@ -26,7 +26,7 @@ class LineDetection(Node):
         # Settings
         self.rate = 10.0
         self.min_area = 10 # Minimal area for a pattern to be recognized as relevant
-        self.filter_below = np.array([0, 0, 100]) # blue, green, red
+        self.filter_below = np.array([0, 0, 50]) # blue, green, red
         self.filter_above = np.array([20, 20, 200])
         self.crop = 0.4 # vertical portion of image to use in center of camera - 1.0 is full width
         self.debug = False # Will visualize camera image, used cropped image and result mask between filter values

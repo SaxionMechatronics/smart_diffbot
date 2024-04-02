@@ -2,9 +2,9 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
   <!-- Properties -->
-  <xacro:property name="base_length" value="1.5"/>
-  <xacro:property name="base_width" value="1.0"/>
-  <xacro:property name="base_height" value="0.5"/>
+  <xacro:property name="base_length" value="1.4"/>
+  <xacro:property name="base_width" value="0.8"/>
+  <xacro:property name="base_height" value="0.4"/>
   <xacro:property name="wheel_radius" value="0.2"/>
   <xacro:property name="wheel_width" value="0.1"/>
   <xacro:property name="wheel_suspension" value="0.05"/>
@@ -14,7 +14,7 @@
   <!-- Links -->
   <link name="base_link">
     <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="${base_length/4.0} 0 0" rpy="0 0 0"/>
       <geometry>
         <box size="${base_length} ${base_width} ${base_height}" />
       </geometry>
@@ -54,7 +54,7 @@
         <sphere radius="${caster_radius}"/>
       </geometry>
     </collision>
-    <xacro:box_inertia m="0.5" w="${base_width}" d="${base_length}" h="${base_height}"/>
+    <xacro:box_inertia m="5" w="${base_width}" d="${base_length}" h="${base_height}"/>
   </link>
 
   <!-- Joints -->
@@ -66,7 +66,7 @@
 
   <xacro:if value="$(arg camera)">
     <joint name="camera_joint" type="fixed">
-      <origin xyz="0 0 ${base_height/2.0 + 0.30}" rpy="0 0 0"/>
+      <origin xyz="${3*base_length/4.0 + 0.01} 0 ${-base_height/2.0 + 0.05}" rpy="0 0 0"/>
       <parent link="base_link"/>
       <child link="camera_link"/>
     </joint>
@@ -87,21 +87,21 @@
   <joint name="left_wheel_joint" type="continuous">
     <parent link="base_link"/>
     <child link="left_wheel"/>
-    <origin xyz="${-base_length/4.0} ${base_width/2.0 + wheel_width/2.0 + wheel_spacing} ${-base_height/2.0 + wheel_suspension}" rpy="0 0 0"/>
+    <origin xyz="0.0 ${base_width/2.0 + wheel_width/2.0 + wheel_spacing} ${-base_height/2.0 + wheel_suspension}" rpy="0 0 0"/>
     <axis xyz="0 1 0" rpy="0 0 0"/>
   </joint>
 
   <joint name="right_wheel_joint" type="continuous">
     <parent link="base_link"/>
     <child link="right_wheel"/>
-    <origin xyz="${-base_length/4.0} -${base_width/2.0 + wheel_width/2.0 + wheel_spacing} ${-base_height/2.0 + wheel_suspension}" rpy="0 0 0"/>
+    <origin xyz="0.0 -${base_width/2.0 + wheel_width/2.0 + wheel_spacing} ${-base_height/2.0 + wheel_suspension}" rpy="0 0 0"/>
     <axis xyz="0 1 0" rpy="0 0 0"/>
   </joint>
 
   <joint name="caster_joint" type="fixed">
     <parent link="base_link"/>
     <child link="caster"/>
-    <origin xyz="${base_length/3.0} 0 ${-base_height/2.0 + wheel_suspension - wheel_radius + caster_radius}" rpy="0 0 0"/>
+    <origin xyz="${base_length/2.0} 0 ${-base_height/2.0 + wheel_suspension - wheel_radius + caster_radius}" rpy="0 0 0"/>
   </joint>
 
 </robot>

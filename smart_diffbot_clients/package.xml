@@ -3,7 +3,7 @@
 <package format="3">
   <name>smart_diffbot_clients</name>
   <version>1.0.0</version>
-  <description>Client package of smart_diffbot</description>
+  <description>Clients package of smart_diffbot</description>
   <maintainer email="k.j.vanteeffelen@saxion.nl">Kees van Teeffelen</maintainer>
   <license>Apache License 2.0</license>
 

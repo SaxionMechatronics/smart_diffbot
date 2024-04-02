@@ -10,12 +10,12 @@ from rclpy.node import Node
 from nav2_msgs.action import NavigateToPose
 from geometry_msgs.msg import PoseStamped
 
-class DockingClient(Node):
+class LineFollowClient(Node):
 
     def __init__(self):
 
         # Start node 
-        super().__init__('docking_client')
+        super().__init__('line_follow_client')
 
     def start(self, robot_name):
 
@@ -27,17 +27,17 @@ class DockingClient(Node):
 
         goal_msg.behavior_tree = os.path.join(
             get_package_share_directory('smart_diffbot_navigation'), 
-            'behavior_trees', 'navigate_docking.xml')
+            'behavior_trees', 'navigate_line_following.xml')
 
         pose_msg = PoseStamped()
         pose_msg.header.frame_id = "map"
-        pose_msg.pose.position.x = 6.0
-        pose_msg.pose.position.y = 0.0
+        pose_msg.pose.position.x = -8.0
+        pose_msg.pose.position.y = 4.0
         goal_msg.pose = pose_msg
 
         self.get_logger().info('Waiting for Nav2 action server to come online...')
         self.nav_client.wait_for_server()
-        self.get_logger().info('Nav2 action server available, sending docking goal...')
+        self.get_logger().info('Nav2 action server available, sending line following goal...')
         future = self.nav_client.send_goal_async(goal_msg, feedback_callback=self.feedback_callback)
         future.add_done_callback(self.goal_response_callback)
 
@@ -66,7 +66,7 @@ class DockingClient(Node):
 def main(args=None):
     rclpy.init(args=args)
 
-    docking_client = DockingClient()
+    line_follow_client = LineFollowClient()
 
     # Defaults
     robot_name = ""
@@ -76,13 +76,13 @@ def main(args=None):
         robot_name = sys.argv[1]
 
     # Start client
-    docking_client.start(robot_name=robot_name)
+    line_follow_client.start(robot_name=robot_name)
 
     # Send action request to Nav2 
-    docking_client.send_goal()
+    line_follow_client.send_goal()
 
     # Spin (so the node won't shut down after the goal is sent)
-    rclpy.spin(docking_client)
+    rclpy.spin(line_follow_client)
 
 
 if __name__ == '__main__':

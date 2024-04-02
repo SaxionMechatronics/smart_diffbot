@@ -8,4 +8,8 @@
 	  <description>Dock onto the docking station after approach has been finished.</description>
 	</class>
 
+	<class name="smart_diffbot_navigation/FollowLine" type="smart_diffbot_navigation::FollowLine" base_class_type="nav2_core::Behavior">
+	  <description>Follow a line</description>
+	</class>
+
 </library>

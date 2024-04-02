@@ -78,8 +78,10 @@ add_library(${plugin_library_name} SHARED
   src/planner_plugins/straight_line_planner.cpp
   src/behavior_plugins/approach_dock.cpp
   src/behavior_plugins/dock.cpp
-   
+  src/behavior_plugins/follow_line.cpp
+  src/bt_plugins/approach_dock_action.cpp 
   src/bt_plugins/dock_action.cpp 
+  src/bt_plugins/follow_line_action.cpp
 )
 
 ament_target_dependencies(${plugin_library_name}
@@ -112,6 +114,9 @@ list(APPEND bt_plugin_libs smart_diffbot_navigation_approach_dock_action_bt_node
 
 add_library(smart_diffbot_navigation_dock_action_bt_node SHARED src/bt_plugins/dock_action.cpp)
 list(APPEND bt_plugin_libs smart_diffbot_navigation_dock_action_bt_node)
+
+add_library(smart_diffbot_navigation_follow_line_action_bt_node SHARED src/bt_plugins/follow_line_action.cpp)
+list(APPEND bt_plugin_libs smart_diffbot_navigation_follow_line_action_bt_node)
 
 foreach(bt_plugin ${bt_plugin_libs})
   ament_target_dependencies(${bt_plugin} ${dependencies})

@@ -53,7 +53,7 @@ protected:
   ros2_aruco_interfaces::msg::ArucoMarkers::SharedPtr markers_;
   double marker_time_ = 0.0;
 
-// Control gains
+  // Control gains
   double linear_gain_;
 
 };

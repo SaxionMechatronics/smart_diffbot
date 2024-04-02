@@ -15,7 +15,7 @@ def generate_launch_description():
     launch_empty_world = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
             os.path.join(get_package_share_directory(robot+'_bringup'), 'launch', 'gazebo_world.launch.py')]),
-            launch_arguments=[('world', 'docking_world')]
+            launch_arguments=[('world', 'test_world')]
     )
 
     # Launch robot

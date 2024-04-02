@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 
 <sdf version="1.6">
-  <world name="docking_world">
+  <world name="test_world">
 
     <!-- Set the coordinates for the world origin -->
     <spherical_coordinates>
@@ -68,33 +68,6 @@
             </plane>
           </geometry>
           <material>
-            <ambient>0.8 0.8 0.8 1</ambient>
-            <diffuse>0.8 0.8 0.8 1</diffuse>
-            <specular>0.8 0.8 0.8 1</specular>
-          </material>
-        </visual>
-      </link>
-    </model>
-
-    <!-- Docking station -->
-    <model name="docking_station">
-      <static>true</static>
-      <pose>10.12 0 0.5 0 0 0</pose>
-      <link name="tag_link">
-        <collision name="docking_station_collision">
-          <geometry>
-            <box>
-              <size>0.2 1.0 1.0</size>
-            </box>          
-          </geometry>
-        </collision>
-        <visual name="docking_station_visual">
-          <geometry>
-            <box>
-              <size>0.2 1.0 1.0</size>
-            </box>          
-          </geometry>
-          <material>
             <ambient>1 1 1 1</ambient>
             <diffuse>1 1 1 1</diffuse>
             <specular>1 1 1 1</specular>
@@ -103,10 +76,60 @@
       </link>
     </model>
 
+    <!-- Docking station -->
+    <model name="docking_station">
+      <static>true</static>
+      <pose>10.12 0 0.3 0 0 0</pose>
+      <link name="vertical_link">
+        <collision name="vertical_link_collision">
+          <geometry>
+            <box>
+              <size>0.2 1.0 0.6</size>
+            </box>          
+          </geometry>
+        </collision>
+        <visual name="vertical_link_visual">
+          <geometry>
+            <box>
+              <size>0.2 1.0 0.6</size>
+            </box>          
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.8 0.8 0.8 1</specular>
+          </material>
+        </visual>
+      </link>
+      <link name="horizontal_link">
+        <collision name="horizontal_link_collision">
+          <pose>-0.4 0 -0.3 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.6 1.0 0.05</size>
+            </box>              
+          </geometry>
+        </collision>
+        <visual name="horizontal_link_visual">
+          <pose>-0.4 0 -0.3 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.6 1.0 0.05</size>
+            </box>              
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.8 0.8 0.8 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
     <!-- Docking tag -->
     <model name="tag_plane">
       <static>true</static>
-      <pose>10 0 0.8 0 0 0</pose>
+      <pose>10 0 0.2 0 0 0</pose>
       <link name="tag_link">
         <visual name="tag_visual">
           <geometry>
@@ -130,6 +153,33 @@
       </link>
     </model>
 
+    <!-- Line -->
+    <model name="line_plane">
+      <static>true</static>
+      <pose>0 4.5 0.01 0 0 0</pose>
+      <link name="line_link">
+        <visual name="line_visual">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>11 0.1</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+            <specular>0.8 0.8 1</specular>
+            <pbr>
+              <metal>
+                <albedo_map>line.jpg</albedo_map>
+                <normal_map>line.jpg</normal_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+      </link>
+    </model>
 
   </world>
 </sdf>

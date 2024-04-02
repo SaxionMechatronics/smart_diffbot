@@ -15,5 +15,9 @@
       <input_port name="marker_id">ID of marker on docking station</input_port>
     </Action>
 
+    <Action ID="FollowLine">
+      <input_port name="speed">Line following speed</input_port>
+    </Action>
+
   </TreeNodesModel>
 </root>

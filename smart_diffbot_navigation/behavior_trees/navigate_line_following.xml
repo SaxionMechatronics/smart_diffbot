@@ -3,7 +3,7 @@
 
     <!-- Docking behavior tree -->
 
-    <Sequence> <!-- Navigate to goal -> approach dock -> dock -->
+    <Sequence> <!-- Navigate to goal -> follow line -->
 
       <!-- Navigate to goal -->
       <RecoveryNode number_of_retries="6" name="NavigateRecovery">
@@ -28,28 +28,15 @@
       </RecoveryNode>
 
 
-      <!-- Approach dock -->
-      <RecoveryNode number_of_retries="10" name="ApproachDockRecovery">
+      <!-- Follow line -->
+      <RecoveryNode number_of_retries="20" name="FollowLineRecovery">
 
-        <!-- Approach action-->
-        <ApproachDock distance="1.0" speed="0.2" marker_id="1"/>
-
-        <!-- Recovery -->
-        <Fallback name="ApproachDockRecoveryFallback">
-          <Spin spin_dist="0.7"/>
-        </Fallback>
-
-      </RecoveryNode>
-
-      <!-- Dock -->
-      <RecoveryNode number_of_retries="3" name="DockRecovery">
-
-        <!-- Dock action-->
-        <Dock distance="0.4" speed="0.1" marker_id="1"/>
+        <!-- Line following action-->
+        <FollowLine speed="0.6"/>
 
         <!-- Recovery -->
-        <Fallback name="DockRecoveryFallback">
-            <BackUp backup_dist="0.30" backup_speed="0.05"/>
+        <Fallback name="FollowLineRecoveryFallback">
+          <Spin spin_dist="0.35"/>
         </Fallback>
 
       </RecoveryNode>
