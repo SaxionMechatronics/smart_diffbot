@@ -71,11 +71,14 @@ source install/setup.bash
 
 Example launch files are provided which start a Gazebo world with the simulated SMART diffbot(s).
 
-A world with one robot and a docking station, without any namespacing:
+## Launch example simulation of a single robot
+An example world is included which contains a docking station and a line on the floor. 
+The following command starts this world, including one SMART diffbot with camera and without using namespacing:
 ```bash
 ros2 launch smart_diffbot_bringup single_robot_sim_example.launch.py
 ```
 
+## Visualization
 RViz can be used to give this robot a goal position to navigate to and to localize it on a map:
 ```bash
 ros2 launch smart_diffbot_navigation rviz.launch.py
@@ -85,17 +88,24 @@ To view the map, switch on the AerialMapDisplay in the Displays window of RViz.
 
 To set a goal pose, click the "2D Goal Pose" button in the upper bar and select a location on the map where you want the robot to go. 
 
+## Example clients
+Two example clients have been included to send a goal request to the navigation stack. 
+
 To send a docking command, use:
 ```bash
 ros2 run smart_diffbot_clients docking_client
 ```
 
+To send a line following command, use:
+```bash
+ros2 run smart_diffbot_clients line_follow_client
+```
+
+## Simulation example with multiple robots
 Another example launches an empty world with two robots, including namespacing:
 ```bash
 ros2 launch smart_diffbot_bringup multi_robot_sim_example.launch.py
 ```
-
-Although there is no actual hardware of the SMART diffbot, a dummy hardware interface has also been included in this package to demonstrate how a similar package could be set up for an actual robot with simple switching between simulation and hardware control. It would be a matter of setting a `sim` argument to `false` in the main robot launch file. 
 
 # Basic use 
 The robot can be used in any Gazebo world that includes spherical coordinates (such that GNSS data is available) and a bridged clock from Gazebo to ROS 2. The included worlds can be used as examples. 
@@ -106,7 +116,9 @@ With a world running, the robot can be spawned and started using:
 ros2 launch smart_diffbot_bringup main.launch.py
 ```
 
-Using `use_namespace:=true` namespacing is activated. The namespace is equal to the robot name, which can be altered by adding a `robot_name` argument. The camera can be disabled by adding the `camera:=false` argument. Currently, the simulation only supports a maximum of one robot with a camera in the same world. In case of multiple robots in one simulation, make sure to disable the camera on the others. Furthermore, spawn positions and robot colors can be altered using arguments to this launch file. See the multi_robot_example launch file as an example. 
+Although there is no actual hardware of the SMART diffbot, a dummy hardware interface has also been included in this package to demonstrate how a similar package could be set up for an actual robot with simple switching between simulation and hardware control. It would be a matter of setting a `sim` argument to `false` for the main robot launch file. 
+
+Using `use_namespace:=true`, namespacing is activated. The namespace is equal to the robot name, which can be altered by adding a `robot_name` argument. The camera can be disabled by adding the `camera:=false` argument. Currently, the simulation only supports a maximum of one robot with a camera in the same world. In case of multiple robots in one simulation, make sure to disable the camera on the others. Furthermore, spawn positions and robot colors can be altered using arguments to this launch file. See the multi_robot_example launch file as an example. 
 
 # Development use - seperation of control, localization and navigation
 For development purposes it is convenient to (instead of using the main launch file) spawn the robot and launch its control, localization and navigation software in seperate terminals. In the main launch file, these are all combined. This way, if you are developing one of the components, you only have to restart that component after a change in software instead of restarting the whole simulation.
