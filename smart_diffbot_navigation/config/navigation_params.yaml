@@ -170,11 +170,13 @@
     costmap_topic: local_costmap/costmap_raw
     footprint_topic: local_costmap/published_footprint
     cycle_frequency: 10.0
-    behavior_plugins: ["spin", "backup", "dock", "approach_dock", "follow_line"]
+    behavior_plugins: ["spin", "backup", "drive_on_heading", "dock", "approach_dock", "follow_line"]
     spin:
       plugin: "nav2_behaviors/Spin"
     backup:
-      plugin: "nav2_behaviors/BackUp"
+      plugin: "nav2_behaviors/BackUp"    
+    drive_on_heading:
+      plugin: "nav2_behaviors/DriveOnHeading"
     dock:
       plugin: "smart_diffbot_navigation/Dock"
       linear_gain: 0.5
