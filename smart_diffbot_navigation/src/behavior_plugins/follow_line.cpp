@@ -62,7 +62,7 @@ Status FollowLine::onCycleUpdate()
   }
 
   // If line y coordinate reaches below 10 pixels, line following is completed
-  if(line_y_ < 10.0){
+  if(line_y_ < 20.0){
     stopRobot();
     return Status::SUCCEEDED;
   }

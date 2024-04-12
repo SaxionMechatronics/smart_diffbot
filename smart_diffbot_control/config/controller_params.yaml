@@ -27,7 +27,7 @@
     base_frame_id: base_link
     left_wheel_names: ['left_wheel_joint']
     right_wheel_names: ['right_wheel_joint']
-    wheel_separation: 1.14
+    wheel_separation: 0.94
     wheel_radius: 0.2
 
     # Velocity and acceleration limits of robot
