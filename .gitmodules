@@ -10,3 +10,7 @@
 	path = rviz_satellite
 	url = https://github.com/blacksoul000/rviz_satellite.git
 	branch = dashing
+[submodule "opennav_coverage"]
+	path = opennav_coverage
+	url = https://github.com/open-navigation/opennav_coverage.git
+	branch = humble

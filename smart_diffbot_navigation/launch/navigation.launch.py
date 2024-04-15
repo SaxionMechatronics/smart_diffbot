@@ -37,6 +37,7 @@ def generate_launch_description():
 
     ## Lifecycle nodes
     lifecycle_nodes = ['map_server',
+                       'coverage_server',
                        'controller_server',
                        'smoother_server',
                        'planner_server',
@@ -55,6 +56,13 @@ def generate_launch_description():
                 emulate_tty=True, 
                 parameters=[{'use_sim_time': LaunchConfiguration('sim')},
                             {'yaml_filename': LaunchConfiguration('costmap_path')}],
+            ),
+            Node(
+                package='opennav_coverage',
+                executable='coverage_server',
+                emulate_tty=True, 
+                parameters=[{'use_sim_time': LaunchConfiguration('sim')},
+                            navigation_params],
             ),
             Node(
                 package='nav2_controller',
