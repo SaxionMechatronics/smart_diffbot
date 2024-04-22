@@ -33,7 +33,7 @@ def generate_launch_description():
             PushRosNamespace(condition=IfCondition(LaunchConfiguration('use_namespace')), 
                             namespace=LaunchConfiguration('robot_name')),
 
-            ## Controller manager (only on real robot, Gazebo start one by default)
+            ## Controller manager (only on real robot, Gazebo starts one by default)
             Node(
                 package='controller_manager',
                 executable='ros2_control_node',
