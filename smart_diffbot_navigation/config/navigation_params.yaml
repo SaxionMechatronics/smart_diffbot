@@ -185,7 +185,7 @@
     follow_line:
       plugin: "smart_diffbot_navigation/FollowLine"
       control_gain: 0.002
-      drive_on_secs: 3.0
+      drive_on_secs: 4.0
       check_collisions: False
     global_frame: map
     robot_base_frame: base_link
