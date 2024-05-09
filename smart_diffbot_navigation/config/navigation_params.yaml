@@ -100,12 +100,12 @@
       vx_std: 0.2
       vy_std: 0.2
       wz_std: 0.4
-      vx_max: 1.5
+      vx_max: 2.0
       vx_min: -0.0
       vy_max: 0.0
-      wz_max: 1.5
+      wz_max: 2.0
       iteration_count: 1
-      prune_distance: 4.2
+      prune_distance: 1.0
       transform_tolerance: 0.1
       temperature: 0.3
       gamma: 0.015
@@ -128,13 +128,13 @@
       PathFollowCritic:
         enabled: true
         cost_power: 1
-        cost_weight: 14.0
+        cost_weight: 7.0
         offset_from_furthest: 5
         threshold_to_consider: 1.5
       PathAngleCritic:
         enabled: true
         cost_power: 1
-        cost_weight: 2.0
+        cost_weight: 4.0
         offset_from_furthest: 4
         threshold_to_consider: 0.5
         max_angle_to_furthest: 1.0
@@ -142,7 +142,7 @@
       PathAlignCritic:
         enabled: true
         cost_power: 1
-        cost_weight: 8.0
+        cost_weight: 4.0
         max_path_occupancy_ratio: 0.05
         trajectory_point_step: 3
         threshold_to_consider: 0.5
