@@ -82,7 +82,7 @@
     progress_checker_plugins: ["progress_checker"]
     goal_checker_plugins: ["goal_checker"]
     current_goal_checker: "goal_checker"
-    controller_plugins: ["FollowPath"]
+    controller_plugins: ["FollowPath", "ExactPath"]
     progress_checker:
       plugin: "nav2_controller::SimpleProgressChecker"
       required_movement_radius: 0.5
@@ -110,7 +110,6 @@
       temperature: 0.3
       gamma: 0.015
       motion_model: "DiffDrive"
-      visualize: false
       critics: ["ConstraintCritic", "ObstaclesCritic", "GoalCritic", "GoalAngleCritic", "PathAlignCritic", "PathFollowCritic", "PathAngleCritic", "PreferForwardCritic"]
       ConstraintCritic:
         enabled: true
@@ -163,6 +162,32 @@
         collision_cost: 10000.0
         collision_margin_distance: 0.1
         near_goal_distance: 0.5
+    ExactPath:
+      plugin: "nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController"
+      desired_linear_vel: 0.75
+      lookahead_dist: 1.0
+      lookahead_time: 1.0
+      rotate_to_heading_angular_vel: 1.0
+      transform_tolerance: 0.1
+      use_velocity_scaled_lookahead_dist: false
+      min_approach_linear_velocity: 0.05
+      approach_velocity_scaling_dist: 1.0
+      use_collision_detection: true
+      max_allowed_time_to_collision_up_to_carrot: 1.0
+      use_regulated_linear_velocity_scaling: true
+      use_cost_regulated_linear_velocity_scaling: false
+      regulated_linear_scaling_min_radius: 0.9
+      regulated_linear_scaling_min_speed: 0.25
+      use_fixed_curvature_lookahead: false
+      curvature_lookahead_dist: 1.0
+      use_rotate_to_heading: true
+      rotate_to_heading_min_angle: 1.6
+      max_angular_accel: 1.5
+      max_robot_pose_search_dist: 10.0
+      interpolate_curvature_after_goal: false
+      cost_scaling_dist: 0.3
+      cost_scaling_gain: 1.0
+      inflation_cost_scaling_factor: 3.0
 
 
 /**/behavior_server:
@@ -170,13 +195,11 @@
     costmap_topic: local_costmap/costmap_raw
     footprint_topic: local_costmap/published_footprint
     cycle_frequency: 10.0
-    behavior_plugins: ["spin", "backup", "drive_on_heading", "dock", "approach_dock", "follow_line"]
+    behavior_plugins: ["spin", "backup", "dock", "approach_dock", "follow_line"]
     spin:
       plugin: "nav2_behaviors/Spin"
     backup:
       plugin: "nav2_behaviors/BackUp"    
-    drive_on_heading:
-      plugin: "nav2_behaviors/DriveOnHeading"
     dock:
       plugin: "smart_diffbot_navigation/Dock"
       linear_gain: 0.5
@@ -187,6 +210,8 @@
     follow_line:
       plugin: "smart_diffbot_navigation/FollowLine"
       control_gain: 0.002
+      drive_on_secs: 4.0
+      check_collisions: False
     global_frame: map
     robot_base_frame: base_link
     transform_tolerance: 0.1

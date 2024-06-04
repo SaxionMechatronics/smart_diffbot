@@ -32,10 +32,13 @@ void FollowLine::onConfigure()
 
   // Get parameters
   nav2_util::declare_parameter_if_not_declared(node, "follow_line.control_gain", rclcpp::ParameterValue(1.0));
-  node->get_parameter("follow_line.control_gain", control_gain_);
+  node->get_parameter("follow_line.control_gain", control_gain_);  
+  nav2_util::declare_parameter_if_not_declared(node, "follow_line.drive_on_secs", rclcpp::ParameterValue(0.0));
+  node->get_parameter("follow_line.drive_on_secs", drive_on_secs_);
   nav2_util::declare_parameter_if_not_declared(node, "simulate_ahead_time", rclcpp::ParameterValue(2.0));
   node->get_parameter("simulate_ahead_time", simulate_ahead_time_);
-
+  nav2_util::declare_parameter_if_not_declared(node, "follow_line.check_collisions", rclcpp::ParameterValue(true));
+  node->get_parameter("follow_line.check_collisions", check_collisions_);
 }
 
 Status FollowLine::onRun(const std::shared_ptr<const FollowLineAction::Goal> command)
@@ -48,37 +51,55 @@ Status FollowLine::onRun(const std::shared_ptr<const FollowLineAction::Goal> com
 
 Status FollowLine::onCycleUpdate()
 {
-  // Check if line was seen
-  if(line_time_ == 0.0){
-    RCLCPP_WARN(logger_, "No line spotted, stopping follow_line action");
-    return Status::FAILED;
-  }
-
-  // Check if the marker pose is up to date enough (<1 sec)
-  if (steady_clock_.now().seconds() - line_time_ > 1.0){
-    RCLCPP_WARN(logger_, "Lost sight of line, stopping follow_line action. Last seen %d seconds ago.", int(steady_clock_.now().seconds() - line_time_));
-    stopRobot();
-    return Status::FAILED;
-  }
-
-  // If line y coordinate reaches below 10 pixels, line following is completed
-  if(line_y_ < 20.0){
-    stopRobot();
-    return Status::SUCCEEDED;
-  }
-
-  // If collision is expected, fail
-  if (!isCollisionFree()) {
+  // If collision is expected, fail the action
+  if (check_collisions_ && !isCollisionFree()) {
     stopRobot();
     RCLCPP_WARN(logger_, "Collision Ahead - Exiting line following");
     return Status::FAILED;
   }
 
-  // Base angular velocity on line_x (and linear velocity on goal request)
+  // If line is marked finished, move on in same direction for an amount of seconds, then succeed
+  if(line_finished_){
+    if(steady_clock_.now().seconds() - line_finish_time_ < drive_on_secs_){
+      geometry_msgs::msg::Twist vel_cmd;
+      vel_cmd.linear.x = speed_;
+      vel_pub_->publish(vel_cmd);
+      return Status::RUNNING;
+    }
+    else{
+      stopRobot();
+      line_finished_ = false;
+      return Status::SUCCEEDED;
+    }
+  }
+
+  // If line not finished yet, check if it is seen recently
+  if(line_time_ == 0.0){
+    RCLCPP_WARN(logger_, "No line spotted, stopping follow_line action");
+    return Status::FAILED;
+  }
+
+  if(!line_finished_ && steady_clock_.now().seconds() - line_time_ > 1.0){
+    RCLCPP_WARN(logger_, "Lost sight of line, stopping follow_line action. Last seen %d seconds ago.", int(steady_clock_.now().seconds() - line_time_));
+    stopRobot();
+    return Status::FAILED;
+  }
+
+  // Follow line by adapting angular velocity to line_x (and linear velocity on goal request)
   geometry_msgs::msg::Twist vel_cmd;
   vel_cmd.linear.x = speed_;
   vel_cmd.angular.z = - control_gain_ * line_x_;
   vel_pub_->publish(vel_cmd);
+
+  // Check if line needs to be marked as finished
+  if(line_y_ < 20.0){
+      line_finished_ = true;
+      RCLCPP_INFO(logger_, "Line finished");
+      if(drive_on_secs_ != 0.0){
+        RCLCPP_INFO(logger_, "Driving on for %d seconds...", int(drive_on_secs_));
+      }
+      line_finish_time_ = steady_clock_.now().seconds();
+  }
 
   return Status::RUNNING;
 }

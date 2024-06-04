@@ -43,6 +43,7 @@ public:
 protected:
 
   // Collision checker 
+  bool check_collisions_;
   double simulate_ahead_time_;
   bool isCollisionFree();
 
@@ -53,7 +54,7 @@ protected:
   // Goal
   double speed_;
 
-  // Control gains
+  // Control settings
   double control_gain_;
 
   // Line midpoint position and timing
@@ -61,6 +62,10 @@ protected:
   double line_y_ = 0.0;
   double line_time_ = 0.0;
 
+  // Drive on for set amount of seconds
+  double drive_on_secs_;
+  bool line_finished_ = false;
+  double line_finish_time_;
 };
 
 }  // namespace smart_diffbot_navigation
