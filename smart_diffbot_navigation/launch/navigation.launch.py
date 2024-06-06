@@ -37,7 +37,6 @@ def generate_launch_description():
 
     ## Lifecycle nodes
     lifecycle_nodes = ['map_server',
-                       'coverage_server',
                        'controller_server',
                        'smoother_server',
                        'planner_server',
@@ -57,13 +56,13 @@ def generate_launch_description():
                 parameters=[{'use_sim_time': LaunchConfiguration('sim')},
                             {'yaml_filename': LaunchConfiguration('costmap_path')}],
             ),
-            Node(
-                package='opennav_coverage',
-                executable='coverage_server',
-                emulate_tty=True, 
-                parameters=[{'use_sim_time': LaunchConfiguration('sim')},
-                            navigation_params],
-            ),
+            # Node(
+            #     package='opennav_coverage',
+            #     executable='coverage_server',
+            #     emulate_tty=True, 
+            #     parameters=[{'use_sim_time': LaunchConfiguration('sim')},
+            #                 navigation_params],
+            # ),
             Node(
                 package='nav2_controller',
                 executable='controller_server',
@@ -100,7 +99,7 @@ def generate_launch_description():
                             navigation_params],   
             ),
             Node(
-                package='nav2_bt_navigator',
+                package='backported_bt_navigator',
                 executable='bt_navigator',
                 name='bt_navigator',
                 output='screen',

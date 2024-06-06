@@ -9,9 +9,9 @@
     path_blackboard_id: path
     navigators: ['navigate_to_pose', 'navigate_through_poses']
     navigate_to_pose:
-      plugin: "nav2_bt_navigator/NavigateToPoseNavigator"
+      plugin: "backported_bt_navigator/NavigateToPoseNavigator"
     navigate_through_poses:
-      plugin: "nav2_bt_navigator/NavigateThroughPosesNavigator"
+      plugin: "backported_bt_navigator/NavigateThroughPosesNavigator"
     plugin_lib_names:
     - nav2_compute_path_to_pose_action_bt_node
     - nav2_compute_path_through_poses_action_bt_node
