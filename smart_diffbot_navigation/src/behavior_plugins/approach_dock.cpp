@@ -15,7 +15,7 @@ ApproachDock::~ApproachDock() = default;
 void ApproachDock::marker_callback(const ros2_aruco_interfaces::msg::ArucoMarkers::SharedPtr msg)
 {
   markers_ = msg;
-  marker_time_ = steady_clock_.now().seconds();
+  marker_time_ = this->clock_->now().seconds();
 }
 
 void ApproachDock::onConfigure()
@@ -64,8 +64,8 @@ Status ApproachDock::onCycleUpdate()
   }
 
   // Check if the marker pose is up to date enough (<1 sec)
-  if (steady_clock_.now().seconds() - marker_time_ > 1.0){
-    RCLCPP_WARN(logger_, "Lost sight of marker, stopping approach_dock action. Last seen %d seconds ago.", int(steady_clock_.now().seconds() - marker_time_));
+  if (this->clock_->now().seconds() - marker_time_ > 1.0){
+    RCLCPP_WARN(logger_, "Lost sight of marker, stopping approach_dock action. Last seen %d seconds ago.", int(this->clock_->now().seconds() - marker_time_));
     stopRobot();
     return Status::FAILED;
   }

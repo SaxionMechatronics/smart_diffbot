@@ -16,7 +16,7 @@ void FollowLine::line_callback(const geometry_msgs::msg::PoseStamped::SharedPtr 
 {
   line_x_ = msg->pose.position.x;
   line_y_ = msg->pose.position.y;
-  line_time_ = steady_clock_.now().seconds();
+  line_time_ = this->clock_->now().seconds();
 }
 
 void FollowLine::onConfigure()
@@ -60,7 +60,7 @@ Status FollowLine::onCycleUpdate()
 
   // If line is marked finished, move on in same direction for an amount of seconds, then succeed
   if(line_finished_){
-    if(steady_clock_.now().seconds() - line_finish_time_ < drive_on_secs_){
+    if(this->clock_->now().seconds() - line_finish_time_ < drive_on_secs_){
       geometry_msgs::msg::Twist vel_cmd;
       vel_cmd.linear.x = speed_;
       vel_pub_->publish(vel_cmd);
@@ -79,8 +79,8 @@ Status FollowLine::onCycleUpdate()
     return Status::FAILED;
   }
 
-  if(!line_finished_ && steady_clock_.now().seconds() - line_time_ > 1.0){
-    RCLCPP_WARN(logger_, "Lost sight of line, stopping follow_line action. Last seen %d seconds ago.", int(steady_clock_.now().seconds() - line_time_));
+  if(!line_finished_ && this->clock_->now().seconds() - line_time_ > 1.0){
+    RCLCPP_WARN(logger_, "Lost sight of line, stopping follow_line action. Last seen %d seconds ago.", int(this->clock_->now().seconds() - line_time_));
     stopRobot();
     return Status::FAILED;
   }
@@ -98,7 +98,7 @@ Status FollowLine::onCycleUpdate()
       if(drive_on_secs_ != 0.0){
         RCLCPP_INFO(logger_, "Driving on for %d seconds...", int(drive_on_secs_));
       }
-      line_finish_time_ = steady_clock_.now().seconds();
+      line_finish_time_ = this->clock_->now().seconds();
   }
 
   return Status::RUNNING;
