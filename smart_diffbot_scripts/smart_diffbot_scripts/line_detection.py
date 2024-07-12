@@ -42,7 +42,7 @@ class LineDetection(Node):
 
         # Wait for first image
         if type(self.image) != np.ndarray:
-            self.get_logger().info('Waiting for image...')
+            if self.debug: self.get_logger().info('Waiting for image...')
             time.sleep(1.0)
             return
         
